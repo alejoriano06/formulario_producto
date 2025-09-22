@@ -1,4 +1,4 @@
-// REAMOS LAS CONSTATNTES GLOBALES
+// ==================== CONSTANTES GLOBALES ====================
 const iFoto = document.getElementById('foto');
 const iNombres = document.getElementById('nombres');
 const iMarca = document.getElementById('marca');
@@ -8,119 +8,184 @@ const iPrecio = document.getElementById('precio');
 const form = document.getElementById('vehiculo-form');
 const card = document.getElementById('cont-cardss');
 
-//CREAMOS LA FUNCION QUE NOS PERMITE CREAR UNA NUEVA TAREA A PARTIR DEL FORMULARIO
-//TODA ETIQUETA QUE VAMOS A CREAR ES APARTIR DE LA MAQUETA HTML PRE-EXISTENTE
+// ==================== FUNCIÓN CREAR VEHÍCULO ====================
+function crearVehiculo(imagenV, titulo1, sMarca, modeloV, kVehiculo, pVehiculo) {
+  const pPrincipal = document.createElement('div');
+  pPrincipal.classList.add('item-vehiculo', 'col-md-6');
 
-// ESTA FUNCION SOLO CREA LA ESTRUCTURA DEL HTML Y AUN NO LA INSERTA EN LA PAGINA, LA DEJA EN EL LIMBO
-function crearVehiculo(imagenV,titulo1,sMarca,modeloV,kVehiculo,pVehiculo){
-    //CREAMOS EL NODO, ELEMENTO PADRE O CONTENEDOR
-    const pPrincipal = document.createElement('div');
-    pPrincipal.classList.add('item-vehiculo', 'col-md-6');
+  const pCard = document.createElement('div');
+  pCard.classList.add('card', 'h-100');
 
-    //CREAMOS EL NODO SERIA UN PADRE SECUNDARIO
-    const pCard = document.createElement('div');
-    pCard.classList.add('card', 'h-100');
+  const imagen = document.createElement('img');
+  imagen.classList.add('card-img-top', 'w-100');
+  imagen.setAttribute('src', imagenV);
+  imagen.setAttribute('alt', 'Foto vehiculo');
 
-    // CREAMOS LOS NODOS HIJOS
-    const imagen = document.createElement('img');
-    imagen.classList.add('card-img-top', 'w-100');
-    imagen.setAttribute('src', imagenV);
-    imagen.setAttribute('alt', 'Foto vehiculo')
+  const pTercero = document.createElement('div');
+  pTercero.classList.add('card-body');
 
-    // CREO UN TERCER CONTENEDOR PADRE
-    const pTercero = document.createElement('div');
-    pTercero.classList.add('card-body');
+  const titulo = document.createElement('h3');
+  titulo.classList.add('card-title');
+  titulo.textContent = titulo1;
 
-    const titulo = document.createElement('h3');
-    titulo.classList.add('card-title');
-    titulo.textContent = titulo1
+  const marca = document.createElement('h4');
+  marca.classList.add('card-subtitle', 'text-muted');
+  marca.textContent = sMarca;
 
-    const marca = document.createElement('h4');
-    marca.classList.add('card-subtitle', 'text-muted')
-    marca.textContent = sMarca;
+  const modelo = document.createElement('h4');
+  modelo.classList.add('card-text');
+  modelo.textContent = 'Modelo: ' + modeloV;
 
-    const  modelo = document.createElement('h4');
-    modelo.classList.add('card-text');
-    modelo.textContent = 'Modelo: '+ modeloV;
+  const kilometraje = document.createElement('h4');
+  kilometraje.classList.add('card-text');
+  kilometraje.textContent = 'Kilometraje: ' + kVehiculo;
 
-    const kilometraje = document.createElement('h4');
-    kilometraje.classList.add('card-text');
-    kilometraje.textContent = 'Kilometraje: ' + kVehiculo;
+  const precio = document.createElement('h2');
+  precio.classList.add('text-success');
+  precio.textContent = '$' + pVehiculo;
 
-    const precio = document.createElement('h2');
-    precio.classList.add('text-success')
-    precio.textContent = '$'+ pVehiculo;
+  const pCuarto = document.createElement('div');
+  pCuarto.classList.add('d-flex', 'justify-content-between', 'mt-3');
 
-    // CREO EL CUARTO CONTENEDOR PADRE
-    const pCuarto = document.createElement('div');
-    pCuarto.classList.add('d-flex', 'justify-content-between', 'mt-3');
+  // Botón comprar (ahora con clase correcta)
+  const comprar = document.createElement('button');
+  comprar.classList.add('btn', 'btn-success', 'btn-comprar');
+  comprar.textContent = 'Comprar';
 
-    // CREO LOS HIJOS DEL CUARTO CONTENEDOR PADRE
-    const comprar = document.createElement('button');
-    comprar.classList.add('btn', 'btn-success');
-    comprar.textContent = 'Comprar';
+  // Botón eliminar
+  const eliminar = document.createElement('button');
+  eliminar.classList.add('btn', 'btn-danger');
+  eliminar.textContent = 'Eliminar';
 
-    const eliminar = document.createElement('button');
-    eliminar.classList.add('btn', 'btn-danger');
-    eliminar.textContent = 'Eliminar';
+  eliminar.addEventListener('click', () => {
+    pPrincipal.remove();
+  });
 
-    // ELIMINAOS LA TARJETA
-    eliminar.addEventListener('click', ()=>{
-        pPrincipal.remove();
+  // Ensamblar
+  pPrincipal.appendChild(pCard);
+  pCard.appendChild(imagen);
+  pCard.appendChild(pTercero);
+  pTercero.appendChild(titulo);
+  pTercero.appendChild(marca);
+  pTercero.appendChild(modelo);
+  pTercero.appendChild(kilometraje);
+  pTercero.appendChild(precio);
+  pTercero.appendChild(pCuarto);
+  pCuarto.appendChild(comprar);
+  pCuarto.appendChild(eliminar);
+
+  return pPrincipal;
+}
+
+// ==================== EVENTO SUBMIT FORM ====================
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  let imagenV = iFoto.value.trim();
+  const titulo1 = iNombres.value.trim();
+  const sMarca = iMarca.value.trim();
+  const modeloV = iModelo.value.trim();
+  const kVehiculo = iKilometraje.value.trim();
+  const pVehiculo = iPrecio.value.trim();
+
+  if (imagenV == '') {
+    imagenV = 'https://img.freepik.com/vector-gratis/pagina-error-404-distorsion_23-2148105404.jpg';
+  }
+
+  if (titulo1 == '' || sMarca == '' || modeloV == '' || kVehiculo == '' || pVehiculo == '') {
+    alert('Registre todos los campos');
+  } else {
+    const newVehiculo = crearVehiculo(imagenV, titulo1, sMarca, modeloV, kVehiculo, pVehiculo);
+    card.appendChild(newVehiculo);
+
+    // Reset inputs
+    iFoto.value = '';
+    iNombres.value = '';
+    iMarca.value = '';
+    iModelo.value = '';
+    iKilometraje.value = '';
+    iPrecio.value = '';
+  }
+});
+
+// ==================== PANEL CARRITO ====================
+const btnCarro = document.getElementById("carro");
+const carritoPanel = document.getElementById("carrito-panel");
+const cerrarCarrito = document.getElementById("cerrar-carrito");
+
+btnCarro.addEventListener("click", () => {
+  carritoPanel.classList.add("abierto");
+});
+cerrarCarrito.addEventListener("click", () => {
+  carritoPanel.classList.remove("abierto");
+});
+
+// ==================== LÓGICA DEL CARRITO ====================
+const contenedorVehiculos = document.getElementById("cont-cardss");
+const carritoLista = document.getElementById("carrito-lista");
+const contador = document.getElementById("contador");
+
+// Contenedor para total
+const totalDiv = document.createElement("div");
+totalDiv.classList.add("p-3", "border-top", "fw-bold");
+carritoLista.insertAdjacentElement("afterend", totalDiv);
+
+let carrito = [];
+
+// Renderizar carrito
+function renderizarCarrito() {
+  carritoLista.innerHTML = "";
+  let total = 0;
+
+  carrito.forEach((item, index) => {
+    total += item.precio;
+
+    const itemDiv = document.createElement("div");
+    itemDiv.classList.add("carrito-item", "d-flex", "align-items-center", "mb-3");
+
+    itemDiv.innerHTML = `
+      <img src="${item.foto}" alt="${item.nombre}" width="70" class="me-2 rounded">
+      <div class="detalles flex-grow-1">
+        <h5 class="mb-0">${item.nombre}</h5>
+        <small>Marca: ${item.marca}</small><br>
+        <small>Modelo: ${item.modelo}</small><br>
+        <span class="text-success">$${item.precio.toLocaleString()}</span>
+      </div>
+      <button class="btn btn-sm btn-outline-danger btn-eliminar">❌</button>
+    `;
+
+    // Eliminar producto del carrito
+    itemDiv.querySelector(".btn-eliminar").addEventListener("click", () => {
+      carrito.splice(index, 1);
+      actualizarContador();
+      renderizarCarrito();
     });
 
-    // MUESTRA UN MENSAJE AL DAR CLICK EN EL BOTON COMPRAR
-    comprar.addEventListener('click', ()=>{
-        alert('Te contactaremos muy pronto');
-    });
+    carritoLista.appendChild(itemDiv);
+  });
 
-    //ENSAMBLAMOS DENTRO DE LOS NODOS PADRES SUS NODOS HIJOS
-    pPrincipal.appendChild(pCard);
+  totalDiv.textContent = `Total: $${total.toLocaleString()}`;
+}
 
-    pCard.appendChild(imagen);
-    pCard.appendChild(pTercero);
-    
-    pTercero.appendChild(titulo);
-    pTercero.appendChild(marca);
-    pTercero.appendChild(modelo);
-    pTercero.appendChild(kilometraje);
-    pTercero.appendChild(precio);
-    pTercero.appendChild(pCuarto);
+// Actualizar contador
+function actualizarContador() {
+  contador.textContent = carrito.length;
+}
 
-    pCuarto.appendChild(comprar);
-    pCuarto.appendChild(eliminar);
+// Delegación de eventos para botón "Comprar"
+contenedorVehiculos.addEventListener("click", (e) => {
+  if (e.target.classList.contains("btn-comprar")) {
+    const card = e.target.closest(".card");
+    const foto = card.querySelector("img").src;
+    const nombre = card.querySelector(".card-title").textContent;
+    const marca = card.querySelector(".card-subtitle").textContent;
+    const modelo = card.querySelectorAll(".card-text")[0].textContent.split(": ")[1];
+    const precioTexto = card.querySelector(".text-success").textContent.replace(/[^\d]/g, "");
+    const precio = parseInt(precioTexto);
 
-    // UTILIZAMOS EL RETURN PARA RETORNAR O DAR RESPUESTA DEL ELEMENTO CREADO YA QUE LO USAREMOS EN OTRA FUNCION MAS ADELANTE
-    return pPrincipal;
+    const vehiculo = { foto, nombre, marca, modelo, precio };
 
-};
-
-// DETECTAMOS EL EVENTO CLICK SOBRE EL BOTON AGREGAR CON UN EVENTO DE ESCUCHA O LISTENER
-// PARA QUE A PARTIR DE ESTE EVENTO SE AGREGUE LA TAREA DENTRO DEL CONTENEDOR
-form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    let imagenV = iFoto.value.trim();
-    const titulo1 = iNombres.value.trim();
-    const sMarca = iMarca.value.trim();
-    const modeloV = iModelo.value.trim();
-    const kVehiculo = iKilometraje.value.trim();
-    const pVehiculo = iPrecio.value.trim();
-
-    if(imagenV==''){
-        imagenV= 'https://img.freepik.com/vector-gratis/pagina-error-404-distorsion_23-2148105404.jpg';
-    }
-
-    if(titulo1=='' || sMarca=='' || modeloV=='' || kVehiculo=='' || pVehiculo==''){
-        alert('Registre todos los campos')
-    }else{
-        const newVehiculo = crearVehiculo(imagenV,titulo1,sMarca,modeloV,kVehiculo,pVehiculo);
-        card.appendChild(newVehiculo);
-        iFoto.value='';
-        iNombres.value='';
-        iMarca.value='';
-        iModelo.value='';
-        iKilometraje.value='';
-        iPrecio.value='';
-    }
-
+    carrito.push(vehiculo);
+    actualizarContador();
+    renderizarCarrito();
+  }
 });

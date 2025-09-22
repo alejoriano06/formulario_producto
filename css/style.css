@@ -1,41 +1,220 @@
-*CSS*
-body{
-    background: #f5f5f5;
+/* ===== Reset / Global ===== */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+body {
+    background-color: #f8f9fa; /* Fondo suave */
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
 }
 
-#form{
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    padding: 50px;
-    background: white;
+/* ===== Secciones ===== */
+h2 {
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #0d6efd; /* Azul Bootstrap */
 }
 
-#form input:focus{
-    border: 1px solid #00c897;
-     box-shadow: 0 0 10px #00c897;
+/* ===== Formulario ===== */
+#form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
 }
 
-#form label{
-    color: black;
+#form .form-label {
     font-weight: 600;
 }
 
-#form button{
-    background: #1abc9c;
-    border: transparent;
-    margin-top: 10px;
-    transition: 0.5s;
+#form .btn-primary {
+    width: 100%;
+    font-weight: bold;
 }
 
-#form button:hover{
-    transform: scale(1.1);
+/* ===== Contenedor de tarjetas ===== */
+#cont-cards {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
 }
 
-.item-vehiculo .card{
-    transition: 0.5s;
+#cont-cardss .card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
 }
 
-.item-vehiculo .card:hover{
-    transform: translateY(-8px);
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+#cont-cardss .card:hover {
+    transform: translateY(-5px);
 }
+
+#cont-cardss .card-body h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #212529;
+}
+
+#cont-cardss .card-body h4 {
+    font-size: 1rem;
+    margin: 3px 0;
+}
+
+#cont-cardss .text-success {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/* ===== Botones de las tarjetas ===== */
+#cont-cardss .btn-success {
+    font-weight: bold;
+}
+
+#cont-cardss .btn-danger {
+    font-weight: bold;
+}
+
+/* ===== CARRITO DE COMPRAS ===== */
+/* Botón carrito */
+#carro {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;       /* tamaño ícono */
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+  z-index: 1100;
+  transition: transform 0.2s ease, background 0.2s ease;
+
+  /* Muy importante: relativo al botón */
+  position: fixed;
+}
+
+#carro:hover {
+  background: #ffffff;
+  transform: scale(1.1);
+}
+
+/* Badge contador */
+#contador {
+  position: absolute;
+  top: 8px;     /* ajusta posición */
+  right: 8px;   /* ajusta posición */
+  background: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+  line-height: 1;
+}
+
+    /* Panel lateral */
+#carrito-panel {
+  position: fixed;
+  top: 0;
+  right: -350px; /* oculto fuera de pantalla */
+  width: 350px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  border-left: 1px solid #ddd;
+  transition: right 0.3s ease;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mostrar carrito */
+#carrito-panel.abierto {
+  right: 0;
+}
+
+/* Encabezado */
+.carrito-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  background: #f8f9fa;
+}
+
+.carrito-header h4 {
+  margin: 0;
+}
+
+#cerrar-carrito {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Lista */
+#carrito-lista {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+/* Item con imagen */
+.carrito-item {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.carrito-item img {
+  width: 70px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.detalles {
+  flex: 1;
+}
+
+.carrito-item h5 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.carrito-item p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.carrito-item .precio {
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.btn-eliminar {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: red;
+  cursor: pointer;
+}
+
+
+
+
+   
