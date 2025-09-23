@@ -47,10 +47,10 @@ function crearVehiculo(imagenV, titulo1, sMarca, modeloV, kVehiculo, pVehiculo) 
   const pCuarto = document.createElement('div');
   pCuarto.classList.add('d-flex', 'justify-content-between', 'mt-3');
 
-  // Botón comprar (ahora con clase correcta)
+  // Botón comprar 
   const comprar = document.createElement('button');
   comprar.classList.add('btn', 'btn-success', 'btn-comprar');
-  comprar.textContent = 'Comprar';
+  comprar.textContent = 'Agregar al carrito';
 
   // Botón eliminar
   const eliminar = document.createElement('button');
