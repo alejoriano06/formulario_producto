@@ -1,4 +1,5 @@
 // ==================== CONSTANTES GLOBALES ====================
+// ==================== INPUTS & FORM ====================
 const iFoto = document.getElementById('foto');
 const iNombres = document.getElementById('nombres');
 const iMarca = document.getElementById('marca');
@@ -8,7 +9,7 @@ const iPrecio = document.getElementById('precio');
 const form = document.getElementById('vehiculo-form');
 const card = document.getElementById('cont-cardss');
 
-// ==================== FUNCIÓN CREAR VEHÍCULO ====================
+// ==================== CREAR VEHÍCULO ====================
 function crearVehiculo(imagenV, titulo1, sMarca, modeloV, kVehiculo, pVehiculo) {
   const pPrincipal = document.createElement('div');
   pPrincipal.classList.add('item-vehiculo', 'col-md-6');
@@ -59,6 +60,7 @@ function crearVehiculo(imagenV, titulo1, sMarca, modeloV, kVehiculo, pVehiculo) 
 
   eliminar.addEventListener('click', () => {
     pPrincipal.remove();
+    eliminarVehiculoLocal(titulo1);
   });
 
   // Ensamblar
@@ -77,7 +79,22 @@ function crearVehiculo(imagenV, titulo1, sMarca, modeloV, kVehiculo, pVehiculo) 
   return pPrincipal;
 }
 
-// ==================== EVENTO SUBMIT FORM ====================
+// ==================== LOCAL STORAGE ====================
+const vehiculos = JSON.parse(localStorage.getItem("vehiculos")) || [];
+const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+// Guardar en localStorage
+function guardarLocal(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+// Eliminar un vehículo de LocalStorage
+function eliminarVehiculoLocal(nombre) {
+  vehiculos = vehiculos.filter(v => v.nombre !== nombre);
+  guardarLocal("vehiculos", vehiculos);
+}
+
+// ==================== SUBMIT FORM ====================
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   let imagenV = iFoto.value.trim();
@@ -94,16 +111,25 @@ form.addEventListener('submit', (e) => {
   if (titulo1 == '' || sMarca == '' || modeloV == '' || kVehiculo == '' || pVehiculo == '') {
     alert('Registre todos los campos');
   } else {
-    const newVehiculo = crearVehiculo(imagenV, titulo1, sMarca, modeloV, kVehiculo, pVehiculo);
-    card.appendChild(newVehiculo);
+    const newVehiculo = {
+      foto: imagenV,
+      nombre: titulo1,
+      marca: sMarca,
+      modelo: modeloV,
+      kilometraje: kVehiculo,
+      precio: parseInt(pVehiculo)
+    };
+
+    // Guardar en localStorage
+    vehiculos.push(newVehiculo);
+    guardarLocal("vehiculos", vehiculos);
+
+    // Pintar tarjeta
+    const newCard = crearVehiculo(imagenV, titulo1, sMarca, modeloV, kVehiculo, pVehiculo);
+    card.appendChild(newCard);
 
     // Reset inputs
-    iFoto.value = '';
-    iNombres.value = '';
-    iMarca.value = '';
-    iModelo.value = '';
-    iKilometraje.value = '';
-    iPrecio.value = '';
+    form.reset();
   }
 });
 
@@ -128,8 +154,6 @@ const contador = document.getElementById("contador");
 const totalDiv = document.createElement("div");
 totalDiv.classList.add("p-3", "border-top", "fw-bold");
 carritoLista.insertAdjacentElement("afterend", totalDiv);
-
-let carrito = [];
 
 // Renderizar carrito
 function renderizarCarrito() {
@@ -156,6 +180,7 @@ function renderizarCarrito() {
     // Eliminar producto del carrito
     itemDiv.querySelector(".btn-eliminar").addEventListener("click", () => {
       carrito.splice(index, 1);
+      guardarLocal("carrito", carrito);
       actualizarContador();
       renderizarCarrito();
     });
@@ -185,7 +210,21 @@ contenedorVehiculos.addEventListener("click", (e) => {
     const vehiculo = { foto, nombre, marca, modelo, precio };
 
     carrito.push(vehiculo);
+    guardarLocal("carrito", carrito);
     actualizarContador();
     renderizarCarrito();
   }
+});
+
+// ==================== INIT ====================
+window.addEventListener("DOMContentLoaded", () => {
+  // Pintar tarjetas guardadas
+  vehiculos.forEach(v => {
+    const newCard = crearVehiculo(v.foto, v.nombre, v.marca, v.modelo, v.kilometraje, v.precio);
+    card.appendChild(newCard);
+  });
+
+  // Renderizar carrito si ya existía
+  actualizarContador();
+  renderizarCarrito();
 });

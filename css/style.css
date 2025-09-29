@@ -1,7 +1,7 @@
 /* ===== Reset / Global ===== */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
 body {
-    background-color: #f8f9fa; /* Fondo suave */
+    background-color: #fafaf8; /* Fondo suave */
     font-family: Arial, Helvetica, sans-serif;
     color: #333;
 }
@@ -213,6 +213,27 @@ h2 {
   color: red;
   cursor: pointer;
 }
+
+.btn-ver-todos {
+  display: inline-block;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.btn-ver-todos:hover {
+  background: linear-gradient(135deg, #0056b3, #003f7f);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+  text-decoration: none;
+  color: #fff;
+}
+
 
 
 
